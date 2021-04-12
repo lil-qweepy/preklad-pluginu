@@ -1,0 +1,18 @@
+KeepPlayerDataDays: 30
+UseJoinMessage: false
+OnlyCheckToolBar: true
+OnlySwitchWithToolInHand: false
+DontUseItemWithOneDurability: false
+SwitchSoundEnabled: true
+Messages:
+    Prefix: "§6[§eAutoTool§6] "
+    JoinMessage:
+        Enabled: "§fAutomatický výběr nástroje je &aPOVOLEN"
+        Disabled: "§fAutomatický výběr nástroje je &cZAKÁZÁN"
+    SwitchMessage:
+        Enabled: "§aPOVOLEN &fautomatický výběr nástroju."
+        Disabled: "§cZAKÁZÁN &fautomatický výběr nástroju."
+    Common:
+        Yes: "Ano"
+        No: "Ne"
+        Enabled: "POVOLEN"
