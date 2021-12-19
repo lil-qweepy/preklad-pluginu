@@ -1,0 +1,139 @@
+#translation by lil_qweepy
+
+
+# PremiumVanish v2.7.4 - Messages
+#
+# Information:
+# <..> means that .. is required; [..] means that .. is optional and can be left out; | INSIDE [] or <> stands for 'OR'
+# You can use the & character for color codes. Example: '&cThe color of this text would be red!'
+# You can use #XXXXXX for HEX color codes. Example: '#663EF6This text would be purple!'
+# You can use %p% to get the player's name. Example: '&4&l%p%, you aren't allowed to execute this command!'
+# You can use %other% to get the name of the target or cause
+# You can use %d% to get the player's display name. If you use Essentials then the display name contains the prefix too
+# You can use %tab% to get the player's name in the player list (TAB)
+# You can use %prefix% to get the player's prefix (Requires Vault)
+# You can use %suffix% to get the player's suffix (Requires Vault)
+# You can use %group% to get the player's group (Requires Vault)
+# You can use %nick% to get the player's nickname (Requires Essentials)
+# You can use %special{<text>|<hoverMessage>|[clickCommand]|[run|suggest]}% to create a clickable/hoverable
+#  message part for any message (only one per message possible)
+# You can use %time{<format>}% to get the current time (Uses the server's timezone)
+#  Replace <format> with the date format of your choice. Example: %time{hh:mma | yyyy/MM/dd}%
+#  More info: http://docs.oracle.com/javase/8/docs/api/java/text/SimpleDateFormat.html
+# You can use %uselevel% and %seelevel% to get the player's respective vanish level (with LayeredPermissions)
+# There is also %health%, %maxhealth%, %tps%, %plain_tps%, %ping% and %plain_ping%
+# Some messages allow different, unique variables too
+#
+# NOTE: You can get WAY more placeholders by installing PlaceholderAPI or MVdWPlaceholderAPI
+#
+# You can also make any message dependent on a player's group by adding 'PerGroup' in front of the message:
+# PerGroupNoPermission:
+#   Admin: 'What, this should not happen you are the Admin!'
+#   Player: 'You have like no permissions anyway'
+#   Silence: ''
+#   Default: 'Access denied.'
+#
+# You can start a message with [JSON] to send JSON text directly.
+# Example: '[JSON]{"text":"Welcome %p%","color":"yellow"}'
+#
+# Empty messages will not be sent.
+# Using \n starts a new line.
+#
+# Important:
+# You must double single quotes if you want to use them inside a message.
+# You must NOT use any tab characters inside this file (indent key) otherwise YAML will spam your console with errors!
+# !! If there are errors in the console after editing this file paste it into an online YAML parser to see if
+# there are any YAML syntax errors !!
+Messages:
+  NoPermission: '&cOdepřen přístup!'
+  InvalidUsage: '&cINeplatné použití, můžete použít %special{&6''/pv help''|&6Pro nápovědu klikněte zde!|/pv help|run}% &cfor help.'
+  VanishMessage: '&e%p% opustil/a hrue'
+  ReappearMessage: '&e%p% se připojil/a do hry'
+  VanishMessageWithPermission: '&a[PV] %p% zmizel/a.'
+  ReappearMessageWithPermission: '&a[PV] %p% se znovu objevil/a.'
+  OnVanish: '&aNyní jste neviditelní!'
+  OnReappear: '&aUž nejste neviditelní! '
+  OnVanishCausedByOtherPlayer: '&a%other% vás skryl, nyní jste neviditelný!'
+  OnReappearCausedByOtherPlayer: '&a%other% showed you, you are now visible!'
+  AlreadyVanishedError: '&cUž jsi neviditelný!'
+  NotVanishedError: '&cNejsi neviditelný!'
+  AppliedSilentFlag: '  &eUsing flag -s: No fake join/quit broadcast'
+  AppliedShowInTabFlag: '  &eUsing flag -t: Not hidden in the tablist'
+  SilentJoinMessageForAdmins: '&a[PV] %p% se tiše připojil.'
+  SilentQuitMessageForAdmins: '&a[PV] %p% tiše odešel.'
+  RemindingMessage: '&aStále jsi neviditelný!'
+  ListMessagePrefix: '&aInvisible Players:&f '
+  ActionBarMessage: '&aPro ostatní hráče jste neviditelní!'
+  HideOtherMessage: '&aHráč &e%other%&a je nyní neviditelný!'
+  ShowOtherMessage: '&aHráč &e%other%&a je nyní viditelný!'
+  CannotHideOtherPlayer: '&cNesmíte měnit %other% viditelnost!'
+  AlreadyInvisibleMessage: '&cHráč &e%other%&c je již neviditelný/á!'
+  AlreadyVisibleMessage: '&cHráč &e%other%&c je již viditelný/á!'
+  PluginReloaded: '&aÚspěšně načteno PremiumVanish (%time%ms)!'
+  InvalidSender: '&cPro provedení tohoto příkazu musíte být hráčem!'
+  PlayerNotOnline: '&cTento hráč není online!'
+  PlayerNonExistent: '&cTakový hráč neexistuje!'
+  TeleportationFailed: '&cVaše teleportace se nezdařila, protože ji jiný plugin zakázal..'
+  ToggledPickingUpItemsOn: '&ePicking up items is now turned &aON&e.'
+  ToggledPickingUpItemsOff: '&ePicking up items is now turned &cOFF&e.'
+  UpdateWarning: '&cWarning! Recreating %updates% resets %changes%. Please use &e/pv recreatefiles confirm&c if you''d like to continue.'
+  RecreatedConfig: '&aSuccessfully recreated %updates%! Please check %changes%.'
+  NoConfigUpdateAvailable: '&eVaše soubory PremiumVanish jsou aktuální!'
+  RecreationRequiredMsg: '&c[PV] Your PremiumVanish-files are not up to date. You can use &e/pv recreatefiles&c to recreate them
+  or click %special{&6here|&6Click here to dismiss this message!|/pv recreatefiles dismiss|run}% &cto dismiss this message.
+  Recreating PremiumVanish''s files is optional and gives you access to newer config settings and messages of the plugin.
+  If you don''t want to redo the entire config files you can also copy in new messages/settings manually
+  (see default config files in resource description).'
+  DismissedRecreationWarning: '&eYou are no longer receiving notifications about this recreation.'
+  UndismissedRecreationWarning: '&eYou are now receiving notifications about this recreation.'
+  MustBeVanished: '&cPro použití tohoto příkazu musíte být neviditelní!'
+  ScoreboardDisabled: '&cSCOREBOARD jev konfiguraci vypnuty.'
+  NoTarget: '&cV současné době nemáte žádný cíl!'
+  NoLockedTarget: '&cV tuto chvíli nemáte žádný uzamčený cíl!'
+  UnlockedPlayer: '&6Úspěšně jste odemkli svůj cíl!'
+  TargetedPlayer: '&eSuccessfully targeted the player ''&a%other%&e''!'
+  ScoreboardLockedTarget: '&e[L]'
+  ScoreboardNoTarget: 'None'
+  ToggledScoreboardOn: '&eYour vanish scoreboard is now turned &aON&e.'
+  ToggledScoreboardOff: '&eYour vanish scoreboard is now turned &cOFF&e.'
+  PrintedStacktrace: '&eÚspěšně vytvořil stacktrace, viz konzola!'
+  ChatMessageWarning: '&c[PV] Aby byla zpráva odeslána, musí končit znakem %char%!'
+  ChatMessageWarning2: '&cPlease click %special{&6here|&6Click here to send your message!|%message%/|run}% &cto send the message.'
+  ChatMessageDenied: '&c[PV] V režimu vanish nelze odesílat zprávy! %special{&6[Reappear]|&eKliknutím sem se znovu objevíte!|/pv off|run}%'
+  CommandAccessDenied: '&c[PV] Tento příkaz nelze použít v režimu vanish!'
+  CreativeItemDenied: '&c[PV] Ve Vanishi nemůžete podvádět s předměty!'
+  SpectatorTeleportDenied: '&c[PV] Pomocí nabídky diváka v režimu vanish se nemůžete teleportovat!'
+  EntityHitDenied: '&c[PV] Ve hře Vanish nemůžete zasáhnout hráče ani moby!'
+  BlockInteractDenied: '&c[PV] S tímto blokem nelze interagovat v režimu vanish!'
+  BlockUseDenied: '&c[PV] Tento blok nelze použít v režimu vanish!'
+  BlockPlaceDenied: '&c[PV] Ve Vanishi nelze umisťovat bloky!'
+  BlockBreakDenied: '&c[PV] Ve Vanishi nemůžete rozbít bloky!'
+  InventoryModifyDenied: '&c[PV] You can''t edit this inventory in vanish!'
+  MessageFailedAntiSpam: '&c[PV] Zpomalte prosím a počkejte alespoň  %time% před dalším spuštěním tohoto příkazu.'
+  SwitchedGameMode: '&a[PV] Přepnutý herní režim (Double-Shift)'
+  PluginOutdated: '&c[PV] Vaše aktuální verze aplikace PremiumVanish je zastaralá. Nová verze: ''%new%''; aktuální verze:''%current%'''
+  NoDatabaseConnection: '&c[PV] Chyba: Nepovedlo se připojit k databázi, více informací v konzoli.'
+  DynmapFakeJoin: '%d% připojil'
+  DynmapFakeQuit: '%d% odešel'
+  HelpHeader: '&e<&f---------------&6PremiumVanish-Help&f-----------------&e>'
+  HelpHint: '&7Na příkaz můžete najet kurzorem myši, aby se o něm zobrazily další informace, a kliknutím na příkaz můžete
+  vložit do chatu.'
+  HelpCommands: '&ePříkazy:'
+  HelpCommandFormat: '%special{&a- &c%usage% &b%shortdesc%|&a%usage%\n&f%longdesc%\n&4Permission:&e
+  %permission%\n&2Console:&e %console%|%usage%|suggest}%'
+  HelpCustomCommandShortDescriptions:
+#    '/pv help': 'Custom short description; Keep the indentation, only remove the hashtag!'
+  HelpCustomCommandLongDescriptions:
+#    '/pv target <player>': 'Custom long description'
+  HelpConsoleYes: 'Ano'
+  HelpConsoleNo: 'Ne'
+  HelpOtherPermissions: '%special{&e> Other permissions <|&aOther permissions%permissions%}%'
+  HelpOtherPermissionsPermissionsFormat: '\n&c%permission% &e> &f%description%'
+  HelpFooter: ''
+  InvalidVanishLevel: "&c'%arg%' není platnou vanish úrovní (Maximum=%maxlevel%)."
+  SetVanishLevelDenied: "&cNení dovoleno nastavit úroveň na %level%!"
+  LayeredPermissionsDisabled: "&cV konfiguraci musí být povolena vrstvená oprávnění."
+  SetVanishLevel: "&aÚroveň zmizení nastavíte na %level%!"
+  DiscordSRVFakeQuit: "&e%p% opustil hru"
+  DiscordSRVFakeJoin: "&e%p% se připojil ke hře"
+MessagesVersion: 2.7.4

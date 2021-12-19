@@ -1,0 +1,360 @@
+#translation by lil_qweepy
+#
+#
+# The following variables can be used in most messages that involve a punishment:
+#
+# Punishment specific variables
+# $id - The ID of the punishment in the database.
+# $type - Type of punishment - ban, mute, warn, kick.
+# $reason - the reason for the punishment
+# $executor - the moderator's name, or their display name (/nick) if this is enabled in the configuration
+# $executorUUID - the moderator's UUID
+# $removalReason - the reason this punishment was removed (via /unban), if applicable
+# $permanent - whether this punishment is permanent
+# $ipban - whether this is an IP-ban
+# $silent - whether this punishment was executed silently (-s)
+# $active - whether this punishment is active
+#
+# Affected player specific variables
+# $playerDisplayName - player display name. If display names are not enabled in the configuration or if the player's display name is not available in the message's context, the player's regular name will be used instead.
+# $playerName - player name
+# $playerUUID - UUID of affected player
+# $playerIP - IP of affected player
+# $geoip - Country of affected player, requires GeoIP to be enabled in the configuration, won't work with imported bans
+#
+# Servers
+# These variables represent a server.
+# If the plugin is installed on Spigot, a server is represented by the "server_name" option in config.yml.
+# If the plugin is installed on BungeeCord, a server is represented by their name in the "servers" section in the proxy's config.yml.
+# $serverScope - the scope of the punishment (the server(s) it will affect)
+# $serverOrigin - the origin of the punishment (the server/subserver it was placed on)
+#
+# Dates
+# Example format: "2017-02-03", depends on time_format
+# $dateStart - date the punishment was placed
+# $dateEnd - date the punishment will expire, "forever" if permanent
+#
+# Durations
+# Example format: "20 days, 5 hours, 2 minutes". If permanent, "forever", if expired, "expired" (both are configurable).
+# $duration - time until expiry
+# $originalDuration - the full duration of the punishment.
+# $timeSince - time since placement
+#
+# Configured message variables
+# These variables represent messages in this configuration (messages.yml)
+# $base - banned_message_base
+# $appealMessage - banned_message_appeal_message
+#
+# Global variables
+# $activeBans, $activeMutes, $activeWarnings - total number of global active punishments
+# $totalBans, $totalMutes, $totalWarnings, $totalKicks - total number of global punishments (including inactive ones)
+#
+# Vault-specific variables
+# $playerPrefix - Vault chat prefix of affected player
+# $playerSuffix - Vault chat suffix of affected player
+# $executorPrefix - Vault chat prefix of executor
+# $executorSuffix - Vault chat suffix of executor
+# Any message can be disabled by setting it to "". Empty messages will not be sent by the plugin.
+#
+# Hover text requires permission "litebans.json.hover_text" to view, players lacking permission will see messages without hover text.
+# JSON example:
+# muted: '&cYou are muted! {hoverText: &7$duration remaining}'
+#
+# Hex colors are supported (#000000 - #FFFFFF)
+#
+# https://docs.oracle.com/javase/tutorial/i18n/format/simpleDateFormat.html
+# Example time format with hours + minutes:
+# time_format: 'dd/MM/yyyy HH:mm'
+time_format: HH:mm dd.MM.yyyy
+history_time_format: yyyy-MM-dd
+banned_message_base: |2
+
+  &7&m---&8&m[-&r&e Jsi zabanován! &8&m-]&7&m---&f
+
+  &7► &8Čas zabanování&7: $dateStart
+  &7► &Vyprší za&7: $duration
+  &7► &8Zabanován od&7: $executor
+  &7► &8Z důvodu&7: $reason&f
+
+  &7&m---&8&m[------------------]&7&m---&f
+banned_message: |2
+
+  &7&m---&8&m[-&r&e Jsi zabanován! &8&m-]&7&m---&f
+
+  &7► &7Čas zabanování&e: $dateStart
+  &7► &7Vyprší za&e: $duration
+  &7► &7Zabanován od&e: $executor
+  &7► &7Z důvodu&e: $reason&f
+
+  &7&m---&8&m[------------------]&7&m---&f
+banned_message_permanent: |
+  &7&m---&8&m[-&r&e Jsi zabanován! &8&m-]&7&m---&f
+
+  &7► &7Čas zabanování&e: $dateStart
+  &7► &7Vyprší za&e: Jsi permanentně zabanován
+  &7► &7Zabanován od&e: $executor
+  &7► &7Z důvodu&e: $reason&f
+
+  &7&m---&8&m[------------------]&7&m---&f
+banned_message_appeal_message: ''
+banned_message_geoip_blacklist: |2
+
+  &7&m---&8&m[-&r&e Jsi zabanován! &8&m-]&7&m---&f
+
+  &7► &Z důvodu&e: Tvoje lokace je na blacklistu
+
+  &7&m---&8&m[------------------]&7&m---&f
+bungee_switch_banned: |-
+  &cJsi zabanován na $serverScope! Důvod:
+  $reason
+default_ban_reason: Banovací Kladivo promluvilo!
+default_mute_reason: Spamování
+permission_error: '&cNemáš dostatečná práva!'
+muted: '&7► &cByl ti udělen mute! {hoverText: &eZ důvodu&f:$reason\n&eOd $executor\nVyprší
+  za$duration}'
+muted_permanent: '&7► &cByl ti udělen permanentní mute! {hoverText: &eZ důvodu&f:$reason\n
+  &eod $executor}'
+notify:
+  banned_player_join: ''
+  banned_geoip_blacklist: ''
+error_no_reason_provided: '&cMusíš uvést důvod pro tento trest!'
+error_no_sql_connection: '&cLiteBans není připojen k databázi!'
+error_no_uuid_found: '&cHráč neexistuje.'
+error_console_only: '&cTento příkaz lze použít pouze z konzole.'
+internal_error: '&cNastala vnitřní chyba při pokusu o vykonání tohoto příkazu.'
+duration_limit_error: '&cMaximální povolená doba trvání: $duration'
+warned_join: '&cMáš nová varování:'
+warned_join_entry: |-
+  &4 - Varován uživatelem &c$executor&4: &c$reason
+     &4(&cpřed $timeSince&4)
+command:
+  ban:
+    usage: '&cPoužití: $command [-s] <hráč> [časový údaj] [důvod]'
+    unban_usage: '&cPoužití: $command <player>'
+    example: '&cPříklad: $command Hráč 7d [důvod]'
+    silent_prefix: '&f[&7Ztišený&f] '
+    broadcast_ban: '&a$executor &fzabanoval &a$bannedPlayer &fza ''&a$reason&f'''
+    broadcast_tempban: '&a$executor &fdočasně zabanoval &a$bannedPlayer &fna $tempDuration
+      za ''&a$reason&f'''
+    broadcast_ip_ban: '&a$executor &fzabanoval IP &a$bannedPlayer &fza ''&a$reason&f'''
+    broadcast_temp_ip_ban: '&a$executor &fdočasně zabanoval IP &a$bannedIP &fna $tempDuration
+      za ''&a$reason&f'''
+    broadcast_unban: '&a$executor &fodbanoval &a$playerName'
+    previous_ban_removed: '&aPředchozí ban hráče $bannedPlayer byl odstraněn.'
+    previous_ban_existing: '&c$bannedPlayer je již zabanován a ty nemáš právo na přepis
+      existujících banů.'
+    unban_queue: '&6Pokud se pokusí znova připojit, bude odbanován.'
+    error_no_spec: '&cNebyl rozpoznán žádný platný časový údaj!'
+    unban_fail: '&cCíl není zabanován!'
+    no_override: '&cHráč je již zabanován!'
+    exempt: '&cNemůžeš zabanovat $player!'
+    cooldown: '&cMusíš počkat $seconds sekund před opakovaným použitím tohoto příkazu.'
+    response: ''
+  mute:
+    usage: '&Použití: $command [-s] <hráč> [časový údaj] [důvod]'
+    unmute_usage: '&cPoužití: $command <hráč>'
+    example: '&cPříklad: $command Hráč 7d [důvod]'
+    broadcast: '&a$executor &fudělil hráči &a$mutedPlayer &fmute za ''&a$reason&f'''
+    broadcast_tempmute: '&a$executor &fudělil hráči &a$playerName &fdočasný mute na
+      $tempDuration za ''&a$reason&f'''
+    broadcast_ip_mute: '&a$executor &fudělil &a$playerName &fIP mute za ''&a$reason&f'''
+    broadcast_temp_ip_mute: '&a$executor &fudělil &a$mutedIP &fdočasný IP mute na
+      $tempDuration za ''&a$reason&f'''
+    message: ''
+    message_permanent: ''
+    broadcast_unmute: '&a$executor &fzrušil mute hráče &a$bannedPlayer'
+    unmute_fail: '&cCíl nemá mute!'
+    no_override: '&cHráč má již mute!'
+    previous_mute_removed: '&aPředchozí mute hráče $mutedPlayer byl zrušen.'
+    previous_mute_existing: '&c$mutedPlayer má již mute a ty nemáš právo na přepis
+      existujícího mute.'
+    exempt: '&cNemůžeš udělit mute hráči $player!'
+    notification: '&c$mutedPlayer se pokusil promluvit, ale má mute.'
+    error_not_enabled: '&cUdělování mute není povoleno v této konfiguraci!'
+    response: ''
+    broadcast_unwarn: '&a$executor &funwarned &a$bannedPlayer'
+  warn:
+    usage: '&cPoužití: $command [-s] <hráč> [důvod]'
+    unwarn_usage: '&cPoužití: $command <hráč>'
+    example: ''
+    broadcast: '&a$executor &fvaroval &a$warnedPlayer &fza ''&a$reason&f'''
+    message: |-
+      &cByl jsi varován uživatelem $executor&c za &c'$reason&c'.
+      &cToto varování vyprší za $duration.
+    list_entry: '&f \- Varován uživatelem $executor: ''$reason&f'''
+    unwarn_response: '&aPředchozí varování hráče $player bylo odstraněno.'
+    unwarn_fail: '&cCíl nemá žádná varování!'
+    exempt: '&cNemůžeš varovat hráče $player!'
+    cooldown: '&cMusíš počkat $seconds sekund před opakovaným použitím tohoto příkazu.'
+    response: ''
+    broadcast_unwarn: '&a$executor &funwarned &a$warnedPlayer'
+  history:
+    usage: '&c$command <hráč> [záznamy=10]'
+    start: '&aHistorie pro $target (Limit: $limit):'
+    ban_entry: |-
+      &a -- [&f$timeSince ago&a] --&f
+      &f $executor udělil hráči $name &cban&f: '&a$reason&f'
+    mute_entry: |-
+      &a -- [&f$timeSince ago&a] --&f
+      &f $executor udělil hráči $name &cmute&f: '&a$reason&f'
+    warn_entry: |-
+      &a -- [&f$timeSince ago&a] --&f
+      &f $executor udělil hráči $name &cvarování&f: '&a$reason&f'
+    kick_entry: |-
+      &a -- [&f$timeSince ago&a] --&f
+      &f $executor &cvykopnul &fhráče $name: '&a$reason&f'
+    unban_entry: '&f$executor &7zrušil ban &fhráče $name.'
+    unmute_entry: '&f$executor &7zrušil mute &fhráče $name.'
+    active_suffix: '&f [&cAktivní&f]'
+    expired_suffix: '&f [&8Prošlý&f]'
+    active_suffix_temp: |-
+      &f [&cAktivní&f]
+      &fVyprší za $duration.
+    error_no_history: '&cŽádná historie nebyla nalezena.'
+    error_no_user: '&cUživatel nebyl nalezen.'
+  warnings:
+    usage: '&c$command <hráč>'
+    start: '&aAktivní varování pro $target:'
+  prunehistory:
+    usage: '&c$command <hráč> [trvání]'
+    message: '&aHistorie byla pročištěna.'
+  staffhistory:
+    usage: '&c$command <hráč> [záznamy=10]'
+    start: '&aHistorie personálu pro $target (Limit: $limit):'
+  staffrollback:
+    usage: '&c$command <hráč> [trvání]'
+    message: '&aRollback dokončen, počet odstraněných záznamů: $amount'
+  banlist:
+    start: '&f=== &aStrana &6$page&a z &6$celkem&f ==='
+  iphistory:
+    usage: '&c$command <hráč> [záznamy=10]'
+    start: '&aHistorie přihlášení pro $target (Limit: $limit):'
+    entry: '&a - [&f$date&a]&f $name&a:&f $ip'
+    error_no_history: '&cŽádná historie nebyla nalezena.'
+  dupeip:
+    usage: '&c$command <hráč>'
+    start: '&fSkenování &a$name&f na &a$ip&f. &f[&aOnline&f] [&7Offline&f] [&cZabanován&f]'
+    start_no_ip: '&fSkenování &7$name&f. &f[&aOnline&f] [&7Offline&f] [&cZabanován&f]'
+    separator: '&f, '
+    online: '&a'
+    offline: '&7'
+    banned: '&c'
+    muted: '&6'
+    multiple_addresses: '[$num adres]'
+    ip_banned: '&e'
+  ipreport:
+    start: '&fSkenování &a$num&f online hráčů.. [&aOnline&f] [&7Offline&f] [&cZabanován&f]'
+    entry: '&f$player&a: $result'
+  checkban:
+    usage: '&c$command <hráč>'
+    no_ban: '&cCíl není zabanovaný!'
+    banned: |-
+      &aCíl &f[&a$target&f]&a je zabanovaný:
+      &aAutor banu: $executor
+      &aDůvod: $reason&a
+      &aČas banu: $dateStart
+      &aZabanován do: $dateEnd ($duration)
+      &aZabanován na serveru &6&a$serverOrigin&a, server scope: &6$serverScope
+      &aIP ban: $ipban, silent: $silent, permanentní: $permanent
+  checkmute:
+    usage: '&c$command <hráč>'
+    no_mute: '&cCíl nemá mute!'
+    muted: |-
+      &aCíl &f[&a$target&f]&a má mute:
+      &aAutor mute: $executor
+      &aDůvod: $reason&r
+      &aMute od: $dateStart
+      &aMute do: $dateEnd ($duration)
+      &aMute na serveru &6$serverOrigin&a, server scope: &6$serverScope
+      &aIP mute: $ipban, silent: $silent, permanentní: $permanent
+  lastuuid:
+    usage: '&c$command <hráč|IP>'
+    message: '&fPoslední UUID hráče &a$name&f: &a$uuid'
+  geoip:
+    usage: '&c$command <hráč|IP>'
+    message: '&a$target&f se nechází v: &a$result'
+    error_disabled: '&cPodpora GeoIP není povolená v této konfiguraci!'
+    error_unavailable: '&cPodpora GeoIP není aktuálně dostupná. Byla již stažena?'
+    error_not_found: '&cGeoIP information for $target not found.'
+  lockdown:
+    usage: '&c$command <důvod> | $command end'
+    message: '&cUzamčení aktivováno (důvod: "$reason&c")'
+    stopped: '&aUzamčení deaktivováno.'
+    kick_message: |-
+      &7&m---&8&m[-&r&e Uzamčení &8&m-]&7&m---&f
+      &7 ►  &8Uzamčení serveru je aktivní, prosím vrať se později.
+      &7 ►  &8Z důvodu: &7$reason
+    error_not_active: '&cUzamčení není aktivní!'
+    kick_message_global: |-
+      Network lockdown active, try again later.
+      Reason: $reason
+  kick:
+    usage: '&c$command <hráč> [důvod]'
+    no_match: '&cChyba: &4Hráč nenalezen.'
+    kick_requested: '&6Hráč $player není online na tomto serveru. Bylo požádáno o
+      mezi-serverový kick.'
+    message: 'Vykopnut uživatelem $executor: $reason'
+    message_no_reason: Vykopnut uživatelem $executor.
+    response: '&6$player byl vykonput.'
+    broadcast: '&a$player&f byl vykopnut uživatelem &a$executor&f za ''&a$reason&f''.'
+    broadcast_no_reason: '&a$player&f byl vykopnut uživatelem &a$executor&f.'
+    exempt: '&cNemůžeš vykopnout $player!'
+  togglechat:
+    toggle_off: '&aChat byl zakázán.'
+    toggle_on: '&aChat byl povolen.'
+  clearchat:
+    broadcast: '&aChat byl vyčištěn uživatelem $executor.'
+  mutechat:
+    response: '&chat je aktuálně zakázán!'
+    broadcast_disabled: '&cChat byl zakázán uživatelem $executor.'
+    broadcast_enabled: '&aChat byl povolen uživatelem $executor.'
+  litebans:
+    reload_success: '&aReload LiteBans byl úspěšný.'
+    reload_fail_connect: '&aReload Litebans byl proveden. &cPřipojení k databázi selhalo.'
+    reload_fail: '&cReload selhal.'
+    reload_fail_config: |-
+      &c[LiteBans] &4config.yml je neplatný a nemohl být načten. Budou použita výchozí nastavení.
+      &cProsím zkontrolujte konzoli serveru pro více informací.
+    reload_fail_messages: |-
+      &c[LiteBans] &4messages.yml je neplatný a nemohl být načten. Budou použity výchozí zprávy.
+      &cProsím zkontrolujte konzoli serveru pro více informací.
+    add_history_usage: '&c$command addhistory <jméno> <UUID> <IP>'
+    add_history: '&aHistorie přidána.'
+    fix_history: '&aOprava historie tabulky $table...'
+    fix_history_result: '&aPřidáno $amount záznamů.'
+    fix_history_offline_uuids: '&c$amount UUID nebyly načteny z Mojang služby jelikož
+      se jedná o UUID pro offline režim.'
+    import_usage: '&c$command import start'
+    import_start: '&aProbíhá import z $db, toto může chvíli trvat...'
+    import_finish: '&aImport byl dokončen úspěšně. $bans banů importováno, $ipbans
+      IP-banů.'
+    import_finish_litebans: '&aImport byl dokončen úspěšně. Přidáno $amount záznamů
+      do databáze.'
+    import_fail: '&cImport selhal. Zkontrolujte konzoli.'
+    import_unsupported: '&cImportování z ''$name'' není zatím podporováno!'
+duration:
+  expired: vypršelo
+  forever: navždy
+  year: rok
+  years: let
+  month: měsíc
+  months: měsíců
+  week: týden
+  weeks: týdnů
+  day: den
+  days: dní
+  hour: hodina
+  hours: hodin
+  minute: minuta
+  minutes: minut
+  second: sekunda
+  seconds: sekund
+  format: '%d %s'
+  separator: ', '
+strings:
+  global: globální
+  'null': nedefinováno
+  'true': ano
+  'false': ne
+error_no_reason_removal: '&cYou must provide a reason to remove this punishment!'
+error_no_duration: '&cNo valid time specification detected!'

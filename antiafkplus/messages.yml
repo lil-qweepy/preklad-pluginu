@@ -1,0 +1,22 @@
+#translation by lil_qweepy
+# AntiAFK+ Messages
+
+PREFIX: '&c(!) '
+NO_PERM: '&cK provedení tohoto příkazu nemáte oprávnění.'
+ERROR_AMOUNT_TO_SMALL: '&cToto číslo je příliš malé'
+ERROR_AMOUNT_TO_BIG: '&cToto číslo je příliš velké'
+ERROR_AMOUNT_NOT_VALID: '&cToto není platné číslo'
+RELOAD: §aZnovunačtení dokončeno
+CHANGE_FAILS: §eWrite Fail Amount in Chat
+CHANGED_FAILS: §eZměna počtu neúspěšných pokusů na §7%placeholder%
+CHANGE_CMD: §eNapište příkaz do Chatu (bez &7/&e)
+CHANGED_CMD: §ePřidán příkaz §7%placeholder%
+CHANGE_MSG: §eNapište zprávu do chatu
+CHANGED_MSG: §ePřidaná zpráva §7%placeholder%
+CHANGE_SOUND: §eNapište zvukový název do chatu
+CHANGED_SOUND: §ePřidaný zvuk §7%placeholder%
+CHANGE_BUNGEE: §eNapište název serveru do chatu
+CHANGED_BUNGEE: '§ePřidáno Odeslat na server: §7%placeholder%'
+CHANGE_CHECK_DELAY: §eNapište nové zpoždění kontroly v Chatu
+CHANGED_CHECK_DELAY: §eZměněno zpoždění kontroly na §7%placeholder%s
+ADD_WORLD: §eNapište název světa do chatu
